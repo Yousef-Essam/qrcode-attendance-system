@@ -17,11 +17,6 @@ app.use(express.static('public'))
 const port = 80;
 const host = require('os').networkInterfaces()['Wi-Fi'][1].address;
 
-qrcode.toDataURL('Hello World!!')
-.then(async (url) => {
-    await fs.writeFile('image.txt', url);
-})
-
 io.on('connection', (socket) => {
     setInterval(async () => {
         currentQR = generateRandomString(50)
