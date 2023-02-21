@@ -4,7 +4,7 @@
   "description": "An Application for taking attendance using QR code scanning",
   "main": "app.js",
   "scripts": {
-    "start": "nodemon app",
+    "start": "node app",
     "push": "git add . && git commit -m \"Commiting Changes\" && git push origin main"
   },
   "author": "Yousef Essam",

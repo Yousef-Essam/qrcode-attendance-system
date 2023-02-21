@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "/subscriptions/2b58fb39-61a2-409c-94b6-83fea506f80f/AppServices/subscriptions/2b58fb39-61a2-409c-94b6-83fea506f80f/resourceGroups/appsvc_linux_centralus_basic/providers/Microsoft.Web/sites/qrcatt",
+    "appService.deploySubpath": "."
+}

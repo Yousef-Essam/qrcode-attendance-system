@@ -17,7 +17,7 @@ let currentQRs = {};
 app.use(logger);
 app.use(express.static('public'))
 
-const port = 80;
+const port = process.env.PORT || 80;
 const host = require('os').networkInterfaces()['Wi-Fi'][1].address;
 
 // Periodic Generation of QR Code for teachers API
