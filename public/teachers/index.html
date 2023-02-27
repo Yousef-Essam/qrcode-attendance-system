@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>QRCatt Teachers App</title>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cairo">
+        <script src="https://cdn.tailwindcss.com/"></script>
+        <style>
+            * {
+                box-sizing: border-box;
+            }
+
+            .centerVer {
+                display: flex;
+                align-items: center;
+            }
+
+            .centerHor {
+                display: flex;
+                justify-content: center;
+            }
+
+            .basicBorder {
+                outline: none;
+                border-width: 1px;
+                border-color: #707070;
+                border-style: solid;
+                border-radius: 5px;
+            }
+
+            .basicBorder2 {
+                outline: none;
+                border-width: 2px;
+                border-color: #707070;
+                border-style: solid;
+            }
+
+            #sec1 {
+                background-image: linear-gradient(to right, #3096BC, #1E83AF);
+            }
+
+            #sec2 {
+                height: calc(100vh - 433px);
+                border: 1px solid #707070
+            }
+
+            #logout {
+                background-color:#1E789D;
+                color: white;
+                border: 1px solid white;
+                border-radius: 5px;
+                padding: 10px;
+                transition: all 0.2s;
+            }
+
+            #logout:hover {
+                background-color:white;
+                color: #ED1C24;
+                border: 1px solid #ED1C24;
+                border-radius: 5px;
+                padding: 10px;
+            }
+
+            #modal {
+                visibility: hidden;
+                opacity: 0;
+                transition: opacity 0.5s;
+            }
+        </style>
+    </head>
+    <body class="h-[100vh] font-[Cairo] bg-[#F5F5F5]">
+        <div class="relative pt-[28px] h-[540px] overflow-hidden" id="sec1">
+            <div class="m-auto w-[1739px] h-[70px]">
+                <div class="profile float-left">
+                    <img src="/images/blabla.svg" class="w-[70px] h-[70px] float-left">
+                    <div class="ml-[24px] text-white centerVer text-[24px] h-[70px] float-left"><span>Ahmed Emira</span></div>
+                </div>
+
+                <div class="centerVer h-[70px] float-right"><button class="w-[120px]" id="logout">Log Out</button></div>
+                <img src="/images/qr.svg" class="absolute top-[100px] right-0">
+            </div>
+            
+
+            <div class="absolute top-[220px] left-[174px] text-[56px] text-white">Hello, Dr. <span>Ahmed Emira</span></div>
+        </div>
+
+        <div class="p-[33px] bg-white w-[1645px] m-auto relative bottom-[107px] centerVer centerHor" id="sec2">
+            <div class="selectBar">
+                <div class="centerHor">
+                    <div class="float-left mb-[24px] mr-[24px]">
+                        <select id="courseSelect" class="pl-[20px] text-[24px] text-[#707070] w-[400px] h-[74px] basicBorder">
+                            <option>Course 1</option>
+                            <option>Course 2</option>
+                            <option>Course 3</option>
+                        </select>
+                    </div>
+
+                    <div class="float-left mb-[24px] mr-[24px]">
+                        <select id="lecSelect" class="pl-[20px] text-[24px] text-[#707070] w-[400px] h-[74px] basicBorder">
+                            <option>Lecture 1</option>
+                            <option>Lecture 2</option>
+                            <option>Lecture 3</option>
+                        </select>
+                    </div>
+                </div>
+                <div style="clear: both;"></div>
+
+                <div class="centerHor">
+                    <div class="float-left mb-[24px] mr-[24px]">
+                        <button id="generate" class="hover:bg-[#1492E6] bg-[#2389B3] rounded-[5px] text-[24px] text-white w-[400px] h-[74px]">Generate QR Code</button>
+                    </div>
+
+                    <div class="float-left mb-[24px] mr-[24px]">
+                        <button id="addLecture" class="hover:bg-[#1492E6] bg-[#2389B3] rounded-[5px] text-[24px] text-white w-[400px] h-[74px]">Add New Lecture</button>
+                    </div>
+
+                    <div class="float-left mb-[24px] mr-[24px]">
+                        <button id="download" class="hover:bg-[#1492E6] bg-[#2389B3] rounded-[5px] text-[24px] text-white w-[400px] h-[74px]">Download Attendance Sheet</button>
+                    </div>
+                </div>
+                <div style="clear: both;"></div>
+            </div>
+        </div>
+
+        <div class="bg-black bg-opacity-[0.7] w-[100vw] h-[100vh] fixed top-[0] left-[0] centerHor centerVer" id="modal">
+            <div class="bg-white w-[1600px] h-[800px] basicBorder2 rounded-[20px]">
+                <div class="float-left w-1/2 h-[800px] p-[75px]">
+                    <img class="w-[650px] h-[650px]" id="qr-container">
+                </div>
+
+                <div class="float-left w-1/2 h-[800px]">
+                    <h1 class="text-[56px] text-center mt-[68px]">Lecture #</h1>
+                    <div class="text-[32px] text-center">Course Name - Code</div>
+                    <div class="text-[32px] centerHor text-center mt-[152px]"><span class="w-[502px]">All students should scan this QR code to record their attendance</span></div>
+                    <div class="centerHor mt-[150px]">
+                        <button id="stop" class="hover:bg-[#1492E6] bg-[#2389B3] rounded-[5px] text-[24px] text-white w-[400px] h-[74px]">Stop</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+        <script src="/teachersScript"></script>
+    </body>
+</html>

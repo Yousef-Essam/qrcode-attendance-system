@@ -18,7 +18,23 @@ app.use(logger);
 app.use(express.static('public'))
 
 const port = process.env.PORT || 80;
-const host = require('os').networkInterfaces()['Wi-Fi'][1].address;
+// const host = require('os').networkInterfaces()['Wi-Fi'][1].address;
+
+app.get('/showIP', (req, res) => {
+    console.log(req.ip);
+    console.log(req.headers['x-forwarded-for'])
+    res.send(req.ip);
+})
+
+app.get('/teachers', async (req, res) => {
+    const file = await fs.readFile('public/teachers/index.html');
+    res.send(file);
+})
+
+app.get('/teachersScript', async (req, res) => {
+    const file = await fs.readFile('public/teachers/teachers.js');
+    res.send(file);
+})
 
 // Periodic Generation of QR Code for teachers API
 io.on('connection', (socket) => {

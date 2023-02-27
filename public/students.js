@@ -1,8 +1,13 @@
 const video = document.querySelector('video');
+const box = document.getElementById('box');
 const constraints = {
-    audio: true,
-    video: { width: 1280, height: 720 }
+    audio: false,
+    video: { width: 1280, height: 720, facingMode: 'environment' }
 };
+
+fetch('/showIP', {method: 'GET'})
+.then(response => response.text())
+.then(text => {box.innerHTML = text;})
 
 navigator.mediaDevices.getUserMedia(constraints)
 .then((mediaStream) => {
@@ -18,8 +23,7 @@ navigator.mediaDevices.getUserMedia(constraints)
 const qrScanner = new QrScanner(
     video,
     (result) => {
-        alert(result.data);
-
+        box.innerHTML = result.data;
     },
     {
         highlightScanRegion: true
@@ -29,3 +33,14 @@ const qrScanner = new QrScanner(
 window.onload = () => {
     qrScanner.start();
 }
+
+navigator.geolocation.getCurrentPosition(success, error, options);
+
+function success(pos) {
+    const crd = pos.coords;
+  
+    console.log('Your current position is:');
+    console.log(`Latitude : ${crd.latitude}`);
+    console.log(`Longitude: ${crd.longitude}`);
+    console.log(`More or less ${crd.accuracy} meters.`);
+  }
