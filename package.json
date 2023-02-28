@@ -6,6 +6,7 @@
   "scripts": {
     "start": "node app",
     "frontend-build": "cd views && npm run build",
+    "frontend-watch": "cd views && npm run watch",
     "push": "git add . && git commit -m \"Commiting Changes\" && git push origin main"
   },
   "author": "Yousef Essam",

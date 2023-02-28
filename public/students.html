@@ -3,9 +3,11 @@
     <head>
         <meta chraset="utf-8">
         <title>QRCode-Based Attendance System</title>
+        <link rel="stylesheet" href="/tailwind">
+        <link rel="stylesheet" href="/basic">
     </head>
-    <body>
-        <video></video>
+    <body class="sm:h-[100vh]" style="height: 100vh">
+        <div class="centerVer centerHor" style="height: 100%"><video class="sm:w-[100vw]"></video></div>
         <div id="box"></div>
         <script src="qr-scanner.umd.min.js"></script>
         <script src="students.js"></script>

@@ -1,0 +1,25 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+.centerHor {
+    display: flex;
+    justify-content: center;
+}
+
+.centerVer {
+    display: flex;
+    align-items: center;
+}
+
+.basicBorder {
+    border-width: 1px;
+    border-color: black;
+    border-style: solid;
+    border-radius: 0.5vh;
+}
+
+.clear {
+    clear: both;
+}

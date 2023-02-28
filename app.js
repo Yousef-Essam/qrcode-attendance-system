@@ -26,9 +26,18 @@ app.get('/showIP', (req, res) => {
     res.send(req.ip);
 })
 
+app.get('/students/login', async (req, res) => {
+    const file = await fs.readFile('views/src/students/login.html', 'utf-8');
+    res.end(file);
+})
+
+app.get('/students/permissions', async (req, res) => {
+    const file = await fs.readFile('views/src/students/permissions.html', 'utf-8');
+    res.end(file);
+})
+
 app.get('/teachers', async (req, res) => {
     const file = await fs.readFile('views/src/teachers/index.html', 'utf-8');
-    console.log(typeof(file))
     res.end(file);
 })
 
@@ -38,8 +47,20 @@ app.get('/tailwind', async (req, res) => {
     res.send(file);
 })
 
+app.get('/basic', async (req, res) => {
+    const file = await fs.readFile('views/src/basic.css', 'utf-8');
+    res.setHeader('Content-Type', 'text/css')
+    res.send(file);
+})
+
 app.get('/teachersScript', async (req, res) => {
     const file = await fs.readFile('views/src/teachers/teachers.js', 'utf-8');
+    res.setHeader('Content-Type', 'text/javascript')
+    res.send(file);
+})
+
+app.get('/students/script', async (req, res) => {
+    const file = await fs.readFile('views/src/students/students.js', 'utf-8');
     res.setHeader('Content-Type', 'text/javascript')
     res.send(file);
 })

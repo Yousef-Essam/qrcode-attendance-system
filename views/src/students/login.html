@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html class="sm:h-full">
+    <head>
+        <meta charset="utf-8">
+        <title>QRCatt Students App</title>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cairo">
+        <link rel="stylesheet" href="/tailwind">
+        <link rel="stylesheet" href="/basic">
+    </head>
+    <body class="sm:h-full font-[Cairo]">
+        <div>
+            <div class="centerHor sm:pt-[8.5vh]">
+                <img src="/images/login.svg" class="sm:h-[70vw] sm:w-[70vw]">
+            </div>
+
+            <div class="text-[2.5vh]">
+                <form method="POST" action="/login">
+                    <div class="centerHor sm:pt-[6.5vh] sm:pb-[1vh]"><label for="std_code">Student Code</label></div>
+                    <div class="centerHor"><input class="basicBorder sm:h-[6vh] sm:w-[70vw] sm:pl-[5vw]" name="std_code" type="text" id="std_code" placeholder="921XXXX"></div>
+
+                    <div class="centerHor sm:pt-[2vh] sm:pb-[1vh]"><label for="otp">OTP</label></div>
+                    <div class="centerHor"><input class="basicBorder sm:h-[6vh] sm:w-[70vw] sm:pl-[5vw]" name="otp" type="password" id="std_code"></div>
+
+                    <div class="sm:pt-[4vh] centerHor"><input class="rounded-[0.5vh] hover:bg-[#1492E6] bg-[#2389B3] text-white sm:h-[6vh] sm:w-[70vw]" type="submit" value="Login"></div>
+                </form>
+            </div>
+        </div>
+    </body>
+</html>

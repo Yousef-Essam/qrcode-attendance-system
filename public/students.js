@@ -2,7 +2,7 @@ const video = document.querySelector('video');
 const box = document.getElementById('box');
 const constraints = {
     audio: false,
-    video: { width: 1280, height: 720, facingMode: 'environment' }
+    video: { width: 1280, height: 1000, facingMode: 'environment' }
 };
 
 fetch('/showIP', {method: 'GET'})
