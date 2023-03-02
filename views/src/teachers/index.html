@@ -122,7 +122,7 @@
             </div>
         </div>
 
-        <div class="bg-black bg-opacity-[0.7] w-[100vw] h-[100vh] fixed top-[0] left-[0] centerHor centerVer" id="modal">
+        <!-- <div class="bg-black bg-opacity-[0.7] w-[100vw] h-[100vh] fixed top-[0] left-[0] centerHor centerVer" id="modal">
             <div class="bg-white w-[1600px] h-[800px] basicBorder2 rounded-[20px]">
                 <div class="float-left w-1/2 h-[800px] p-[75px]">
                     <img class="w-[650px] h-[650px]" id="qr-container">
@@ -137,9 +137,24 @@
                     </div>
                 </div>
             </div>
+        </div> -->
+
+        <div class="bg-white w-[100vw] h-[100vh] fixed top-[0] left-[0] rounded-[20px]" id="modal">
+            <div class="float-left w-1/2 h-full">
+                <img class="w-full h-full" id="qr-container">
+            </div>
+
+            <div class="float-left w-1/2 h-full">
+                <h1 class="text-[56px] text-center mt-[100px]">Lecture #</h1>
+                <div class="text-[32px] text-center">Course Name - Code</div>
+                <div class="text-[32px] centerHor text-center mt-[152px]"><span class="w-[502px]">All students should scan this QR code to record their attendance</span></div>
+                <div class="centerHor mt-[250px]">
+                    <button id="stop" class="hover:bg-[#1492E6] bg-[#2389B3] rounded-[5px] text-[24px] text-white w-[400px] h-[74px]">Stop</button>
+                </div>
+            </div>
         </div>
 
         <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
-        <script src="/teachersScript"></script>
+        <script src="/teachers/script"></script>
     </body>
 </html>

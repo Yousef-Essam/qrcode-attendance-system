@@ -1,6 +1,6 @@
 const Client = require('./client');
 const Model = require('./Model');
-const courses = require('./courses')
+const courses = require('./course')
 
 let teachers = new Model('teachers');
 

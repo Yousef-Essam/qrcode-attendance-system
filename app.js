@@ -8,14 +8,25 @@ const io = new Server(server);
 const logger = require('./middleware/logger');
 const qrcode = require('qrcode')
 const generateRandomString = require('./utilities/generateRandomString')
-const students = require('./models/students')
-const teachers = require('./models/teachers')
-const courses = require('./models/courses')
+const studentsController = require('./controllers/students');
+const teachersController = require('./controllers/teachers');
 
 let currentQRs = {};
+currentQRs.search = function (qr) {
+    for (let id in this)
+        if (this[id].qr === qr) return id;
+}
 
 app.use(logger);
-app.use(express.static('public'))
+app.use('/students', (req, res, next) => {
+    req.currentQRs = currentQRs;
+    next()
+});
+app.use(express.static('public'));
+app.use(express.json());
+app.use(express.urlencoded());
+app.use('/students', studentsController);
+app.use('/teachers', teachersController);
 
 const port = process.env.PORT || 80;
 // const host = require('os').networkInterfaces()['Wi-Fi'][1].address;
@@ -24,21 +35,6 @@ app.get('/showIP', (req, res) => {
     console.log(req.ip);
     console.log(req.headers['x-forwarded-for'])
     res.send(req.ip);
-})
-
-app.get('/students/login', async (req, res) => {
-    const file = await fs.readFile('views/src/students/login.html', 'utf-8');
-    res.end(file);
-})
-
-app.get('/students/permissions', async (req, res) => {
-    const file = await fs.readFile('views/src/students/permissions.html', 'utf-8');
-    res.end(file);
-})
-
-app.get('/teachers', async (req, res) => {
-    const file = await fs.readFile('views/src/teachers/index.html', 'utf-8');
-    res.end(file);
 })
 
 app.get('/tailwind', async (req, res) => {
@@ -53,18 +49,6 @@ app.get('/basic', async (req, res) => {
     res.send(file);
 })
 
-app.get('/teachersScript', async (req, res) => {
-    const file = await fs.readFile('views/src/teachers/teachers.js', 'utf-8');
-    res.setHeader('Content-Type', 'text/javascript')
-    res.send(file);
-})
-
-app.get('/students/script', async (req, res) => {
-    const file = await fs.readFile('views/src/students/students.js', 'utf-8');
-    res.setHeader('Content-Type', 'text/javascript')
-    res.send(file);
-})
-
 // Periodic Generation of QR Code for teachers API
 io.on('connection', (socket) => {
     console.log('Connection Established!!');
@@ -75,12 +59,14 @@ io.on('connection', (socket) => {
         currentQRs[socket.id] = {};
         console.log(`${socket.id} started generating QR codes!!`)
         currentQRs[socket.id].qr = generateRandomString(50)
+        console.log(`QR string is ${currentQRs[socket.id].qr}`)
         socket.emit('qr-change', await qrcode.toDataURL(currentQRs[socket.id].qr))
 
         currentQRs[socket.id].timer = setInterval(async () => {
             currentQRs[socket.id].qr = generateRandomString(50)
             socket.emit('qr-change', await qrcode.toDataURL(currentQRs[socket.id].qr))
             console.log(`QR Code Changed for ${socket.id}!`)
+            console.log(`QR string is ${currentQRs[socket.id].qr}`)
         }, 5000);
     });
 
