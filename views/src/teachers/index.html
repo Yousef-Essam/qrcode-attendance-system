@@ -89,6 +89,7 @@
                 <div class="centerHor">
                     <div class="float-left mb-[24px] mr-[24px]">
                         <select id="courseSelect" class="pl-[20px] text-[24px] text-[#707070] w-[400px] h-[74px] basicBorder">
+                            <option value="title" disabled selected>Choose Course</option>
                             <option>Course 1</option>
                             <option>Course 2</option>
                             <option>Course 3</option>
@@ -96,11 +97,24 @@
                     </div>
 
                     <div class="float-left mb-[24px] mr-[24px]">
-                        <select id="lecSelect" class="pl-[20px] text-[24px] text-[#707070] w-[400px] h-[74px] basicBorder">
+                        <select id="lecSelect" disabled class="pl-[20px] text-[24px] text-[#707070] w-[400px] h-[74px] basicBorder">
+                            <option value="title" disabled selected>Choose Lecture</option>
                             <option>Lecture 1</option>
                             <option>Lecture 2</option>
                             <option>Lecture 3</option>
+                            <option value="new">New Lecture</option>
                         </select>
+                    </div>
+
+                    <div id="newLecForm" class="float-left" hidden>
+                        <form action="/teachers/addLecture" method="GET">
+                            <div class="float-left mb-[24px] mr-[24px]">
+                                <input type="number" min="0" name="lecture" class="pl-[20px] text-[24px] text-[#707070] w-[100px] h-[74px] basicBorder">
+                            </div>
+                            <div class="float-left mb-[24px] mr-[24px]">
+                                <input type="submit" value="Add" class="hover:bg-[#1492E6] bg-[#2389B3] rounded-[5px] text-[24px] text-white w-[100px] h-[74px]"> 
+                            </div>
+                        </form>
                     </div>
                 </div>
                 <div style="clear: both;"></div>
@@ -108,10 +122,6 @@
                 <div class="centerHor">
                     <div class="float-left mb-[24px] mr-[24px]">
                         <button id="generate" class="hover:bg-[#1492E6] bg-[#2389B3] rounded-[5px] text-[24px] text-white w-[400px] h-[74px]">Generate QR Code</button>
-                    </div>
-
-                    <div class="float-left mb-[24px] mr-[24px]">
-                        <button id="addLecture" class="hover:bg-[#1492E6] bg-[#2389B3] rounded-[5px] text-[24px] text-white w-[400px] h-[74px]">Add New Lecture</button>
                     </div>
 
                     <div class="float-left mb-[24px] mr-[24px]">

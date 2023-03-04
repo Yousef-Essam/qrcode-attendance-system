@@ -13,4 +13,9 @@ router.get('/script', async (req, res) => {
     res.send(file);
 })
 
+router.get('/addLecture', (req, res) => {
+    console.log(`Lecture ${req.query.lecture} is to be added`)
+    res.redirect('/teachers');
+})
+
 module.exports = router;
