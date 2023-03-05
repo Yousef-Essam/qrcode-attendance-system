@@ -14,8 +14,23 @@
 }
 
 .basicBorder {
+    outline: none;
     border-width: 1px;
-    border-color: black;
+    border-color: #707070;
+    border-style: solid;
+    border-radius: 0.5vh;
+}
+
+.basicBorder2 {
+    outline: none;
+    border-width: 2px;
+    border-color: #707070;
+    border-style: solid;
+}
+
+.excelBorder {
+    border-width: 2px;
+    border-color: #077D3F;
     border-style: solid;
     border-radius: 0.5vh;
 }

@@ -5,36 +5,8 @@
         <title>QRCatt Teachers App</title>
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cairo">
         <link rel="stylesheet" href="/tailwind">
+        <link rel="stylesheet" href="/basic">
         <style>
-            * {
-                box-sizing: border-box;
-            }
-
-            .centerVer {
-                display: flex;
-                align-items: center;
-            }
-
-            .centerHor {
-                display: flex;
-                justify-content: center;
-            }
-
-            .basicBorder {
-                outline: none;
-                border-width: 1px;
-                border-color: #707070;
-                border-style: solid;
-                border-radius: 5px;
-            }
-
-            .basicBorder2 {
-                outline: none;
-                border-width: 2px;
-                border-color: #707070;
-                border-style: solid;
-            }
-
             #sec1 {
                 background-image: linear-gradient(to right, #3096BC, #1E83AF);
             }
@@ -76,7 +48,12 @@
                     <div class="ml-[24px] text-white centerVer text-[24px] h-[70px] float-left"><span>Ahmed Emira</span></div>
                 </div>
 
-                <div class="centerVer h-[70px] float-right"><button class="w-[120px]" id="logout">Log Out</button></div>
+                <div class="centerVer h-[70px] float-right">
+                    <form action="/teachers/logout">
+                        <input type="submit" class="w-[120px]" id="logout" value="Log Out">
+                    </form>
+                    <!-- <button class="w-[120px]" id="logout">Log Out</button> -->
+                </div>
                 <img src="/images/qr.svg" class="absolute top-[100px] right-0">
             </div>
             
@@ -90,18 +67,18 @@
                     <div class="float-left mb-[24px] mr-[24px]">
                         <select id="courseSelect" class="pl-[20px] text-[24px] text-[#707070] w-[400px] h-[74px] basicBorder">
                             <option value="title" disabled selected>Choose Course</option>
-                            <option>Course 1</option>
-                            <option>Course 2</option>
-                            <option>Course 3</option>
+                            <option value="code1">Course 1</option>
+                            <option value="code2">Course 2</option>
+                            <option value="code3">Course 3</option>
                         </select>
                     </div>
 
                     <div class="float-left mb-[24px] mr-[24px]">
-                        <select id="lecSelect" disabled class="pl-[20px] text-[24px] text-[#707070] w-[400px] h-[74px] basicBorder">
+                        <select id="lecSelect" disabled class="pl-[20px] text-[24px] text-[#707070] w-[300px] h-[74px] basicBorder">
                             <option value="title" disabled selected>Choose Lecture</option>
-                            <option>Lecture 1</option>
-                            <option>Lecture 2</option>
-                            <option>Lecture 3</option>
+                            <option value="1">Lecture 1</option>
+                            <option value="2">Lecture 2</option>
+                            <option value="3">Lecture 3</option>
                             <option value="new">New Lecture</option>
                         </select>
                     </div>
@@ -109,7 +86,7 @@
                     <div id="newLecForm" class="float-left" hidden>
                         <form action="/teachers/addLecture" method="GET">
                             <div class="float-left mb-[24px] mr-[24px]">
-                                <input type="number" min="0" name="lecture" class="pl-[20px] text-[24px] text-[#707070] w-[100px] h-[74px] basicBorder">
+                                <input type="number" min="0" name="lecture" class="pl-[20px] pr-[20px] text-[24px] text-[#707070] w-[100px] h-[74px] basicBorder">
                             </div>
                             <div class="float-left mb-[24px] mr-[24px]">
                                 <input type="submit" value="Add" class="hover:bg-[#1492E6] bg-[#2389B3] rounded-[5px] text-[24px] text-white w-[100px] h-[74px]"> 
@@ -121,11 +98,12 @@
 
                 <div class="centerHor">
                     <div class="float-left mb-[24px] mr-[24px]">
-                        <button id="generate" class="hover:bg-[#1492E6] bg-[#2389B3] rounded-[5px] text-[24px] text-white w-[400px] h-[74px]">Generate QR Code</button>
+                        <button id="generate" class="hover:bg-[#1492E6] bg-[#2389B3] rounded-[5px] text-[24px] text-white w-[250px] h-[74px]">Generate QR</button>
                     </div>
 
                     <div class="float-left mb-[24px] mr-[24px]">
-                        <button id="download" class="hover:bg-[#1492E6] bg-[#2389B3] rounded-[5px] text-[24px] text-white w-[400px] h-[74px]">Download Attendance Sheet</button>
+                        <button id="download" class="excelBorder hover:bg-[#077D3F] bg-white rounded-[5px] text-[24px] hover:text-white text-black w-[350px] h-[74px]">Download Attendance Sheet</button>
+                        <a hidden id="downloadLink"></a>
                     </div>
                 </div>
                 <div style="clear: both;"></div>

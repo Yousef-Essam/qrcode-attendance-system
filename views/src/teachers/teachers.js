@@ -5,6 +5,27 @@ const modal = document.getElementById('modal');
 const courseSelect = document.getElementById('courseSelect');
 const lecSelect = document.getElementById('lecSelect');
 const newLecForm = document.getElementById('newLecForm');
+const downloadBut = document.getElementById('download');
+const downloadLink = document.getElementById('downloadLink');
+
+let socket = io();
+
+downloadBut.onclick = () => {
+    if (courseSelect.value === 'title' || lecSelect.value === 'title') {
+        alert('Please Choose a Valid Course and Lecture Number.');
+        return;
+    }
+    if (lecSelect.value === 'new') {
+        alert('Please Add the lecture first.');
+        return;
+    }
+    downloadLink.href = `/teachers/download?course=${courseSelect.value}&lecture=${lecSelect.value}`;
+    downloadLink.hidden = false;
+    downloadLink.click();
+    downloadLink.hidden = true;
+    socket.connect();
+    socket.connect();
+}
 
 courseSelect.onchange = () => {
     lecSelect.disabled = false;
@@ -18,11 +39,17 @@ lecSelect.onchange = () => {
     }
 }
 
-let socket = io();
-
 start.onclick = (e) => {
+    if (courseSelect.value === 'title' || lecSelect.value === 'title') {
+        alert('Please Choose a Valid Course and Lecture Number.');
+        return;
+    }
+    if (lecSelect.value === 'new') {
+        alert('Please Add the lecture first.');
+        return;
+    }
     showModal();
-    socket.emit('start');
+    socket.emit('start', courseSelect.value, lecSelect.value);
 }
 
 stop.onclick = (e) => {

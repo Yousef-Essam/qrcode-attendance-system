@@ -6,6 +6,7 @@ const scan = document.getElementById('scan');
 const camClose = document.getElementById('cam-close');
 const next = document.getElementById('next');
 const status = document.getElementById('status');
+const resultImg = document.getElementById('resultImg');
 
 const transTime = 1000;
 
@@ -54,12 +55,16 @@ const qrScanner = new QrScanner(video, (result) => {
     .then((response) => {
         if (response.status === 200) {
             next.innerHTML = 'Sounds Nice!';
-            status.innerHTML = 'recorded';
+            status.innerHTML = 'Attendance recorded successfully!';
+            status.style.color = 'black';
+            resultImg.src = '/images/success.svg';
             next.onclick = backToMain;
         } else if (response.status === 404) {
             console.log('QR code does not exist')
             next.innerHTML = 'Try Again';
-            status.innerHTML = 'failed';
+            status.innerHTML = 'Invalid scan';
+            status.style.color = '#E21E2C';
+            resultImg.src = '/images/failure.svg';
             next.onclick = backToCam;
         }
 

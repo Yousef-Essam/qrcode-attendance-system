@@ -4,6 +4,11 @@
       "user": { "ENV" : "MYSQL_USER" },
       "password" : { "ENV" : "MYSQL_PASSWORD" },
       "database": { "ENV" : "MYSQL_DATABASE" },
+      "port": "3306",
+      "ssl": {
+        "ca": "DigiCertGlobalRootCA.crt.pem",
+        "rejectUnauthorized": false
+      },
       "driver": "mysql",
       "multipleStatements": true
     }
