@@ -21,7 +21,7 @@ router.get('/addLecture', checkTeacherSession, (req, res) => {
 
 router.get('/download', checkTeacherSession, async (req, res) => {
     console.log(req.query)
-    res.download('../file.json');
+    res.download('file.json');
 })
 
 router.get('/logout', checkTeacherSession, async (req, res) => {
