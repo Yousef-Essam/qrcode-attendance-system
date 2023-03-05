@@ -11,6 +11,6 @@ const client = mysql.createPool({
     database: process.env.MYSQL_DATABASE,
     ssl: {ca: fs.readFileSync('DigiCertGlobalRootCA.crt.pem')},
     port: 3306
-});
+});  
   
 module.exports = client;
