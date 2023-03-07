@@ -10,7 +10,12 @@ const qrcode = require('qrcode')
 const generateRandomString = require('./utilities/generateRandomString')
 const studentsController = require('./controllers/students');
 const teachersController = require('./controllers/teachers');
-const cookieParser = require('cookie-parser')
+const cookieParser = require('cookie-parser');
+const students = require('./models/student');
+const teachers = require('./models/teacher');
+const courses = require('./models/course');
+const studentsSessions = require('./models/studentSession');
+const checkTeacherSession = require('./middleware/checkTeacherSession');
 
 let currentQRs = {};
 currentQRs.search = function (qr) {
@@ -22,7 +27,7 @@ currentQRs.search = function (qr) {
 //     req.secure ? next() : res.redirect('https://' + req.headers.host + req.url)
 // })
 
-app.set('view-engine', 'ejs') 
+app.set('view engine', 'ejs') 
 
 app.use(logger);
 app.use(express.static('public'));
@@ -45,6 +50,16 @@ app.get('/showIP', (req, res) => {
     res.send(req.ip);
 })
 
+app.get('/', checkTeacherSession, async (req, res) => {
+    if (req.logged) {
+        res.redirect('/teachers');
+        return;
+    }
+    const file = await fs.readFile('views/src/home.html', 'utf-8');
+    res.setHeader('Content-Type', 'text/html')
+    res.send(file);
+})
+
 app.get('/tailwind', async (req, res) => {
     const file = await fs.readFile('views/build/tailwind.css', 'utf-8');
     res.setHeader('Content-Type', 'text/css')
@@ -56,6 +71,67 @@ app.get('/basic', async (req, res) => {
     res.setHeader('Content-Type', 'text/css')
     res.send(file);
 })
+
+// For development purposes
+// Start Dev
+app.get('/resetStudent', async (req, res) => {
+    if (req.query.username === 'qrcatt_admin' && req.query.password === 'iamtheadmin_pleaseletmein') {
+        await students.resetLogged(req.query.student_id);
+        await studentsSessions.destroySession(req.query.student_id)
+        res.send('Student Account Reset Successfully!!');
+    } else {
+        res.status(403).send('7aramyyyyyyyyyyyy');
+    }
+})
+
+app.get('/getStudents', async (req, res) => {
+    if (req.query.username === 'qrcatt_admin' && req.query.password === 'iamtheadmin_pleaseletmein') {
+        res.send(await students.read());
+    } else {
+        res.status(403).send('7aramyyyyyyyyyyyy');
+    }
+})
+
+app.get('/getTeachers', async (req, res) => {
+    if (req.query.username === 'qrcatt_admin' && req.query.password === 'iamtheadmin_pleaseletmein') {
+        res.send(await teachers.read());
+    } else {
+        res.status(403).send('7aramyyyyyyyyyyyy');
+    }
+})
+
+app.get('/getCourses', async (req, res) => {
+    if (req.query.username === 'qrcatt_admin' && req.query.password === 'iamtheadmin_pleaseletmein') {
+        res.send(await courses.read());
+    } else {
+        res.status(403).send('7aramyyyyyyyyyyyy');
+    }
+})
+
+app.post('/getStudents', async (req, res) => {
+    if (req.body.username === 'qrcatt_admin' && req.body.password === 'iamtheadmin_pleaseletmein') {
+        res.send(await students.read());
+    } else {
+        res.status(403).send('7aramyyyyyyyyyyyy');
+    }
+})
+
+app.post('/getTeachers', async (req, res) => {
+    if (req.body.username === 'qrcatt_admin' && req.body.password === 'iamtheadmin_pleaseletmein') {
+        res.send(await teachers.read());
+    } else {
+        res.status(403).send('7aramyyyyyyyyyyyy');
+    }
+})
+
+app.post('/getCourses', async (req, res) => {
+    if (req.body.username === 'qrcatt_admin' && req.body.password === 'iamtheadmin_pleaseletmein') {
+        res.send(await courses.read());
+    } else {
+        res.status(403).send('7aramyyyyyyyyyyyy');
+    }
+})
+// End Dev
 
 // Periodic Generation of QR Code for teachers API
 io.on('connection', (socket) => {

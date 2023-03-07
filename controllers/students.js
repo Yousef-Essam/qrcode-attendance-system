@@ -3,6 +3,7 @@ const express = require('express');
 const router = express.Router();
 const checkStudentSession = require('../middleware/checkStudentSession');
 const studentsSessions = require('../models/studentSession');
+const students = require('../models/student')
 
 router.use(checkStudentSession);
 
@@ -20,9 +21,10 @@ router.post('/login', async (req, res) => {
         return;
     }
 
+    let student = await students.authenticate(req.body.student_id, req.body.password);
     // Authentication
-    if (req.body.std_code === '9211418' && req.body.otp === '000000') {
-        let s_sesID = await studentsSessions.createSession(req.body.std_code)
+    if (student && !student.logged) {
+        let s_sesID = await studentsSessions.createSession(req.body.student_id)
         res.cookie('s_sesID', s_sesID);
         res.redirect('/students')
     } else {

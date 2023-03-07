@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html class="h-full">
+    <head>
+        <meta charset="utf-8">
+        <title>QRCatt Teachers App</title>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cairo">
+        <link rel="stylesheet" href="/tailwind">
+        <link rel="stylesheet" href="/basic">
+        <style>
+            #modal {
+                visibility: hidden;
+                opacity: 0;
+                transition: opacity 0.5s;
+            }
+        </style>
+    </head>
+    <body class="h-full bg-[#3096BC] font-[Cairo] overflow-hidden">
+        <div class="bg-white pt-[15px] pb-[15px] pr-[75px] pl-[75px]">
+            <div><img src="/images/logo.png" class="h-[85] w-[200px]"></div>
+        </div>
+        <div>
+            <div class="text-center text-white text-[64px] font-bold pt-[330px]">Welcome to QRCatt,</div>
+            <div class="text-center text-white text-[48px]">The best attendance recorder is between your hands!</div>
+            <div class="mt-[20px] centerHor">
+                <button class="m-[10px] bg-white w-[350px] h-[96px] rounded-[10px] text-[32px]" id="showLogin">
+                    <div class="centerHor">
+                        <span class="float-left">Teacher Login</span><img class="float-left pl-[10px]" src="/images/prof.svg">
+                    </div>
+                </button>
+                <button class="m-[10px] bg-white w-[350px] h-[96px] rounded-[10px] text-[32px]">
+                    <div class="centerHor">
+                        <span class="float-left">Download App</span><img class="float-left pl-[10px]" src="/images/android.svg">
+                    </div>
+                </button>
+            </div>
+            <img src="/images/qr.svg" class="absolute right-[0] bottom-[-350px]">
+        </div>
+
+        <div class="bg-black bg-opacity-[0.7] w-[100vw] h-[100vh] fixed top-[0] left-[0] centerHor centerVer" id="modal">
+            <div class="bg-white w-[1000px] h-[500px] basicBorder2 rounded-[20px] relative">
+                <div class="text-[48px] text-center text-[#1E83AF] mt-[50px]">Teachers Login</div>
+                <div class="text-[2.5vh]">
+                    <button id="hideLogin" class="absolute right-0 top-0 centerHor centerVer w-[5vh] h-[5vh] text-black text-[3vh]"><span>X</span></button>
+                    <form method="POST" action="/teachers/login">
+                        <div class="centerHor"><input class="basicBorder h-[64px] w-[400px] pl-[20px] mt-[30px]" name="username" type="text" placeholder="Username" required></div>
+                        <div class="centerHor"><input class="basicBorder h-[64px] w-[400px] pl-[20px] mt-[15px]" name="password" type="password" placeholder="********" required></div>
+    
+                        <div class="centerHor"><input class="rounded-[10px] hover:bg-[#1492E6] bg-[#2389B3] text-white h-[64px] w-[200px] mt-[40px]" type="submit" value="Login"></div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <script>
+            const showLogin = document.getElementById('showLogin');
+            const hideLogin = document.getElementById('hideLogin');
+            const modal = document.getElementById('modal');
+
+            showLogin.onclick = (e) => {
+                showModal();
+            }
+
+            hideLogin.onclick = (e) => {
+                hideModal();
+            }
+
+            function showModal() {
+                modal.style.visibility = 'visible';
+                modal.style.opacity = 1;
+            }
+
+            function hideModal() {
+                setTimeout(() => {modal.style.visibility = 'hidden';}, 500)
+                modal.style.opacity = 0;
+            }
+        </script>
+    </body>
+</html>

@@ -45,7 +45,7 @@
             <div class="m-auto w-[1739px] h-[70px]">
                 <div class="profile float-left">
                     <img src="/images/blabla.svg" class="w-[70px] h-[70px] float-left">
-                    <div class="ml-[24px] text-white centerVer text-[24px] h-[70px] float-left"><span>Ahmed Emira</span></div>
+                    <div class="ml-[24px] text-white centerVer text-[24px] h-[70px] float-left"><span><%= teacher.name %></span></div>
                 </div>
 
                 <div class="centerVer h-[70px] float-right">
@@ -58,7 +58,7 @@
             </div>
             
 
-            <div class="absolute top-[220px] left-[174px] text-[56px] text-white">Hello, Dr. <span>Ahmed Emira</span></div>
+            <div class="absolute top-[220px] left-[174px] text-[56px] text-white">Hello, Dr. <span><%= teacher.name.split(' ')[0] %></span></div>
         </div>
 
         <div class="p-[33px] bg-white w-[1645px] m-auto relative bottom-[107px] centerVer centerHor" id="sec2">
@@ -67,24 +67,22 @@
                     <div class="float-left mb-[24px] mr-[24px]">
                         <select id="courseSelect" class="pl-[20px] text-[24px] text-[#707070] w-[400px] h-[74px] basicBorder">
                             <option value="title" disabled selected>Choose Course</option>
-                            <option value="code1">Course 1</option>
-                            <option value="code2">Course 2</option>
-                            <option value="code3">Course 3</option>
+                            <% for (let i = 0; i < courses.length; i++) { %>
+                                <option value="<%= courses[i].course_code %>"><%= courses[i].name %></option>
+                            <% } %>
                         </select>
                     </div>
 
                     <div class="float-left mb-[24px] mr-[24px]">
                         <select id="lecSelect" disabled class="pl-[20px] text-[24px] text-[#707070] w-[300px] h-[74px] basicBorder">
                             <option value="title" disabled selected>Choose Lecture</option>
-                            <option value="1">Lecture 1</option>
-                            <option value="2">Lecture 2</option>
-                            <option value="3">Lecture 3</option>
                             <option value="new">New Lecture</option>
                         </select>
                     </div>
 
                     <div id="newLecForm" class="float-left" hidden>
                         <form action="/teachers/addLecture" method="GET">
+                            <input id="col" name="course_code" hidden type="text">
                             <div class="float-left mb-[24px] mr-[24px]">
                                 <input type="number" min="0" name="lecture" class="pl-[20px] pr-[20px] text-[24px] text-[#707070] w-[100px] h-[74px] basicBorder">
                             </div>
@@ -109,23 +107,6 @@
                 <div style="clear: both;"></div>
             </div>
         </div>
-
-        <!-- <div class="bg-black bg-opacity-[0.7] w-[100vw] h-[100vh] fixed top-[0] left-[0] centerHor centerVer" id="modal">
-            <div class="bg-white w-[1600px] h-[800px] basicBorder2 rounded-[20px]">
-                <div class="float-left w-1/2 h-[800px] p-[75px]">
-                    <img class="w-[650px] h-[650px]" id="qr-container">
-                </div>
-
-                <div class="float-left w-1/2 h-[800px]">
-                    <h1 class="text-[56px] text-center mt-[68px]">Lecture #</h1>
-                    <div class="text-[32px] text-center">Course Name - Code</div>
-                    <div class="text-[32px] centerHor text-center mt-[152px]"><span class="w-[502px]">All students should scan this QR code to record their attendance</span></div>
-                    <div class="centerHor mt-[150px]">
-                        <button id="stop" class="hover:bg-[#1492E6] bg-[#2389B3] rounded-[5px] text-[24px] text-white w-[400px] h-[74px]">Stop</button>
-                    </div>
-                </div>
-            </div>
-        </div> -->
 
         <div class="bg-white w-[100vw] h-[100vh] fixed top-[0] left-[0] rounded-[20px]" id="modal">
             <div class="float-left w-1/2 h-full">

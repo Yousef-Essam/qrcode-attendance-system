@@ -7,6 +7,7 @@ const lecSelect = document.getElementById('lecSelect');
 const newLecForm = document.getElementById('newLecForm');
 const downloadBut = document.getElementById('download');
 const downloadLink = document.getElementById('downloadLink');
+const col = document.getElementById('col');
 
 let socket = io();
 
@@ -19,7 +20,7 @@ downloadBut.onclick = () => {
         alert('Please Add the lecture first.');
         return;
     }
-    downloadLink.href = `/teachers/download?course=${courseSelect.value}&lecture=${lecSelect.value}`;
+    downloadLink.href = `/teachers/download?course_code=${courseSelect.value}&lecture=${lecSelect.value}`;
     downloadLink.hidden = false;
     downloadLink.click();
     downloadLink.hidden = true;
@@ -28,12 +29,20 @@ downloadBut.onclick = () => {
 }
 
 courseSelect.onchange = () => {
-    lecSelect.disabled = false;
+    fetch(`/teachers/getCourseLectures?course_code=${courseSelect.value}`)
+    .then((response) => response.json())
+    .then((obj) => {
+        console.log('Got message');
+        console.log(obj);
+        overwriteLecSelect(obj)
+        lecSelect.disabled = false;
+    })
 }
 
 lecSelect.onchange = () => {
     if (lecSelect.value === 'new') {
         newLecForm.hidden = false;
+        col.value = courseSelect.value;
     } else {
         newLecForm.hidden = true;
     }
@@ -70,4 +79,18 @@ function showModal() {
 function hideModal() {
     setTimeout(() => {modal.style.visibility = 'hidden';}, 500)
     modal.style.opacity = 0;
+}
+
+function overwriteLecSelect(newElements) {
+    while (lecSelect.children > 2) {
+        let children = lecSelect.children;
+        lecSelect.removeChild(children[children.length - 2])
+    }
+
+    for (let val of newElements) {
+        let option = document.createElement('option');
+        option.value = val;
+        option.innerHTML = `Lecture ${val}`;
+        lecSelect.insertBefore(option, lecSelect.children[lecSelect.children.length - 1]);
+    }
 }
