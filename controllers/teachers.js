@@ -94,9 +94,9 @@ router.get('/download', async (req, res) => {
     console.log(req.query)
     let lecture_id = await lectures.getID(req.teacher.teacher_id, req.query.lecture, req.query.course_code);
     let attData = await lectures.getAttendance(lecture_id);
-    await fs.writeFile('attendance.xlsx', excelJSON.jsonToXLSX(attData, 'Attendance'));
-    res.download('attendance.xlsx');
-    await fs.unlink('attendance.xlsx');
+    res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+    res.setHeader('Content-disposition', 'attachment; filename=' + 'attendance.xlsx');
+    res.send(excelJSON.jsonToXLSX(attData, 'Attendance'))
 })
 
 router.get('/logout', async (req, res) => {
