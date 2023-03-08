@@ -100,7 +100,6 @@ router.get('/download', async (req, res) => {
     let attData = await lectures.getAttendance(lecture_id);
     res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
     res.setHeader('Content-Disposition', 'attachment; filename=' + 'attendance.xlsx');
-    await fs.writeFile('attendance.xlsx', excelJSON.jsonToXLSX(attData, 'Attendance'))
     res.end(excelJSON.jsonToXLSX(attData, 'Attendance'))
 })
 
@@ -110,12 +109,8 @@ router.get('/logout', async (req, res) => {
         return;
     }
     res.clearCookie('t_sesID');
-    teachersSessions.destroySession(req.teacher.t_sesID);
+    await teachersSessions.destroySession(req.teacher.t_sesID);
     res.redirect('/')
 })
-
-async function download() {
-
-}
 
 module.exports = router;

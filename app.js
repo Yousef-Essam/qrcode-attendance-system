@@ -81,7 +81,7 @@ app.get('/basic', async (req, res) => {
 app.get('/resetStudent', async (req, res) => {
     if (req.query.username === 'qrcatt_admin' && req.query.password === 'iamtheadmin_pleaseletmein') {
         await students.resetLogged(req.query.student_id);
-        await studentsSessions.destroySession(req.query.student_id)
+        await studentsSessions.destroyStudentSession(req.query.student_id)
         res.send('Student Account Reset Successfully!!');
     } else {
         res.status(403).send('7aramyyyyyyyyyyyy');
