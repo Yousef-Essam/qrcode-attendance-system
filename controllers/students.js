@@ -3,7 +3,8 @@ const express = require('express');
 const router = express.Router();
 const checkStudentSession = require('../middleware/checkStudentSession');
 const studentsSessions = require('../models/studentSession');
-const students = require('../models/student')
+const students = require('../models/student');
+const lectures = require('../models/lecture');
 
 router.use(checkStudentSession);
 
@@ -25,7 +26,10 @@ router.post('/login', async (req, res) => {
     // Authentication
     if (student && !student.logged) {
         let s_sesID = await studentsSessions.createSession(req.body.student_id)
-        res.cookie('s_sesID', s_sesID);
+        res.cookie('s_sesID', s_sesID, {
+            maxAge: 1000*60*60*24*365
+        });
+        await students.setLogged(req.body.student_id);
         res.redirect('/students')
     } else {
         res.redirect('/students/login')
@@ -37,8 +41,9 @@ router.get('/', async (req, res) => {
         res.redirect('/students/login');
         return;
     }
-    const file = await fs.readFile('views/src/students/index.html', 'utf-8');
-    res.end(file);
+    // const file = await fs.readFile('views/src/students/index.html', 'utf-8');
+    // res.end(file);
+    res.render('src/students/index.ejs', {student_name: req.student.name, student_id: req.student.student_id})
 })
 
 router.get('/script', async (req, res) => {
@@ -51,13 +56,27 @@ router.get('/script', async (req, res) => {
     res.send(file);
 })
 
-router.post('/scanRes', (req, res) => {
+router.post('/scanRes', async (req, res) => {
     if (!req.logged) {
         res.status(401).send('Student Not logged in!')
         return;
     }
     
-    if (req.currentQRs.search(req.body.qr)) {
+    let qrObj = req.currentQRs.search(req.body.qr);
+    if (qrObj) {
+        let queryResult = await lectures.setAttended(req.student.student_id, req.currentQRs[qrObj].lecture_id);
+        if (queryResult.affectedRows === 0) {
+            console.log(`Attendance failed with ${req.body.qr}`)
+            res.status(404);
+            res.send();
+            return;
+        }
+        if (queryResult.changedRows === 0) {
+            console.log(`Attendance was already recorded!`);
+            res.status(400);
+            res.send();
+            return;
+        }
         console.log(`Attendance is successful with ${req.body.qr}`)
         res.status(200);
     } else {

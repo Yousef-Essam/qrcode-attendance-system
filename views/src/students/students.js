@@ -66,6 +66,12 @@ const qrScanner = new QrScanner(video, (result) => {
             status.style.color = '#E21E2C';
             resultImg.src = '/images/failure.svg';
             next.onclick = backToCam;
+        } else if (response.status === 400) {
+            next.innerHTML = 'Rest Assured!';
+            status.innerHTML = 'Attendance already recorded!';
+            status.style.color = 'black';
+            resultImg.src = '/images/already.png';
+            next.onclick = backToMain;
         }
 
         setTimeout(() => {

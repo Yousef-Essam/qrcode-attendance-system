@@ -14,8 +14,12 @@ const cookieParser = require('cookie-parser');
 const students = require('./models/student');
 const teachers = require('./models/teacher');
 const courses = require('./models/course');
+const lectures = require('./models/lecture');
 const studentsSessions = require('./models/studentSession');
 const checkTeacherSession = require('./middleware/checkTeacherSession');
+const teachersSessions = require('./models/teacherSession');
+
+const qrValidTime = 10000;
 
 let currentQRs = {};
 currentQRs.search = function (qr) {
@@ -134,27 +138,39 @@ app.post('/getCourses', async (req, res) => {
 // End Dev
 
 // Periodic Generation of QR Code for teachers API
-io.on('connection', (socket) => {
+io.on('connection', async (socket) => {
     console.log('Connection Established!!');
+    // Check Session Existence
+    let t_sesID = parseCookie(socket.handshake.headers.cookie).t_sesID;
+    if (await teachersSessions.check(t_sesID))
+        console.log(`${t_sesID} is allowed to connect!`)
+    else {
+        console.log('Not Allowed. Disconnected!!');
+        socket.disconnect();
+        return;
+    }
 
     socket.on('start', async (course, lecture) => {
         if (currentQRs[socket.id]) return;
+        let teacher = await teachersSessions.check(parseCookie(socket.handshake.headers.cookie).t_sesID);
+        if (!teachers.teaches(teacher.teacher_id, course)) return;
 
         currentQRs[socket.id] = {};
         console.log(`${socket.id} started generating QR codes for ${course} Lecture ${lecture}`)
-        currentQRs[socket.id].qr = generateRandomString(50);
-        currentQRs[socket.id].teacher = '';
+        currentQRs[socket.id].teacher_id = teacher.teacher_id;
         currentQRs[socket.id].course = course;
         currentQRs[socket.id].lecture = lecture;
+        currentQRs[socket.id].lecture_id = await lectures.getID(teacher.teacher_id, lecture, course);
+        currentQRs[socket.id].qr = `${currentQRs[socket.id].course}-${currentQRs[socket.id].lecture}-${generateRandomString(50)}`;
         console.log(`QR string is ${currentQRs[socket.id].qr}`)
         socket.emit('qr-change', await qrcode.toDataURL(currentQRs[socket.id].qr))
 
         currentQRs[socket.id].timer = setInterval(async () => {
-            currentQRs[socket.id].qr = generateRandomString(50)
+            currentQRs[socket.id].qr = `${currentQRs[socket.id].course}-${currentQRs[socket.id].lecture}-${generateRandomString(50)}`;
             socket.emit('qr-change', await qrcode.toDataURL(currentQRs[socket.id].qr))
             console.log(`QR Code Changed for ${socket.id}!`)
             console.log(`QR string is ${currentQRs[socket.id].qr}`)
-        }, 5000);
+        }, qrValidTime);
     });
 
     socket.on('stop', () => {
@@ -173,6 +189,17 @@ io.on('connection', (socket) => {
         delete currentQRs[socket.id];
     });
 })
+
+function parseCookie(cookie) {
+    let cookies = cookie.split('; ');
+    let parsedCookies = {};
+    for (let val of cookies) {
+        let splitVal = val.split('=')
+        parsedCookies[splitVal[0]] = splitVal[1];
+    }
+
+    return parsedCookies;
+}
 
 server.listen(port, () => {
     console.log(`Server Listening at 127.0.0.1`)

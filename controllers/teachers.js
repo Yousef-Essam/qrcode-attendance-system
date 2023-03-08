@@ -14,7 +14,9 @@ router.post('/login', async (req, res) => {
     // Authentication
     if (teacher) {
         let t_sesID = await teachersSessions.createSession(teacher.teacher_id)
-        res.cookie('t_sesID', t_sesID);
+        res.cookie('t_sesID', t_sesID, {
+            maxAge: 1000*60*60*24*365
+        });
         res.redirect('/teachers')
     } else {
         res.redirect('/')
@@ -28,8 +30,10 @@ router.get('/', async (req, res) => {
         return;
     }
     let t_courses = await teachers.getCourses(req.teacher.teacher_id);
-    const file = await fs.readFile('views/src/teachers/index.ejs', 'utf-8');
+    
     res.render('src/teachers/index.ejs', {teacher: req.teacher, courses: t_courses});
+    // const file = await fs.readFile('views/src/teachers/index.html', 'utf-8');
+    // res.send(file)
 })
 
 router.get('/script', async (req, res) => {
@@ -95,8 +99,9 @@ router.get('/download', async (req, res) => {
     let lecture_id = await lectures.getID(req.teacher.teacher_id, req.query.lecture, req.query.course_code);
     let attData = await lectures.getAttendance(lecture_id);
     res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-    res.setHeader('Content-disposition', 'attachment; filename=' + 'attendance.xlsx');
-    res.send(excelJSON.jsonToXLSX(attData, 'Attendance'))
+    res.setHeader('Content-Disposition', 'attachment; filename=' + 'attendance.xlsx');
+    await fs.writeFile('attendance.xlsx', excelJSON.jsonToXLSX(attData, 'Attendance'))
+    res.end(excelJSON.jsonToXLSX(attData, 'Attendance'))
 })
 
 router.get('/logout', async (req, res) => {

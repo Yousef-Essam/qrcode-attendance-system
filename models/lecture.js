@@ -28,6 +28,10 @@ lectures.getID = async (teacher_id, number, course_code) => {
 
 lectures.getAttendance = async (lecture_id) => {
     return await Model.query(`SELECT students.student_id, students.name, students.section, students.bn, check_ins.attended FROM students INNER JOIN check_ins ON students.student_id = check_ins.student_id WHERE check_ins.lecture_id = ${lecture_id} ORDER BY section, bn;`)
-} 
+}
+
+lectures.setAttended = async (student_id, lecture_id) => {
+    return await lectures.checkIns.update({attended: 1}, {student_id: student_id, lecture_id: lecture_id});
+}
 
 module.exports = lectures;

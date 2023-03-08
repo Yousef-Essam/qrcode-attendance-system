@@ -80,6 +80,7 @@
                         </select>
                     </div>
 
+
                     <div id="newLecForm" class="float-left" hidden>
                         <form action="/teachers/addLecture" method="GET">
                             <input id="col" name="course_code" hidden type="text">
@@ -114,8 +115,8 @@
             </div>
 
             <div class="float-left w-1/2 h-full">
-                <h1 class="text-[56px] text-center mt-[100px]">Lecture #</h1>
-                <div class="text-[32px] text-center">Course Name - Code</div>
+                <h1 class="text-[56px] text-center mt-[100px]">Lecture <span id="modal_lecture_number"></span></h1>
+                <div class="text-[32px] text-center"><span id="modal_course_name"></span> - <span id="modal_course_code"></span></div>
                 <div class="text-[32px] centerHor text-center mt-[152px]"><span class="w-[502px]">All students should scan this QR code to record their attendance</span></div>
                 <div class="centerHor mt-[250px]">
                     <button id="stop" class="hover:bg-[#1492E6] bg-[#2389B3] rounded-[5px] text-[24px] text-white w-[400px] h-[74px]">Stop</button>

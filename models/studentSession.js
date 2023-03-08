@@ -11,7 +11,7 @@ studentsSessions.createSession = async (student_id) => {
 }
 
 studentsSessions.check = async (s_sesID) => {
-    return (await studentsSessions.read('*', {s_sesID: s_sesID}))[0]
+    return (await Model.query(`SELECT * FROM students_sessions INNER JOIN students ON students.student_id = students_sessions.student_id WHERE students_sessions.s_sesID = '${s_sesID}'`))[0]
 }
 
 studentsSessions.destroySession = async (s_sesID) => {

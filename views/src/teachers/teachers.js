@@ -7,6 +7,9 @@ const lecSelect = document.getElementById('lecSelect');
 const newLecForm = document.getElementById('newLecForm');
 const downloadBut = document.getElementById('download');
 const downloadLink = document.getElementById('downloadLink');
+const modal_lecture_number = document.getElementById('modal_lecture_number');
+const modal_course_code = document.getElementById('modal_course_code');
+const modal_course_name = document.getElementById('modal_course_name');
 const col = document.getElementById('col');
 
 let socket = io();
@@ -73,6 +76,9 @@ socket.on('qr-change', (newSrc) => {
 
 function showModal() {
     modal.style.visibility = 'visible';
+    modal_lecture_number.innerHTML = lecSelect.value;
+    modal_course_code.innerHTML = courseSelect.value;
+    modal_course_name.innerHTML = courseSelect.options[courseSelect.selectedIndex].text;
     modal.style.opacity = 1;
 }
 
