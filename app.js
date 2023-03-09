@@ -19,7 +19,7 @@ const studentsSessions = require('./models/studentSession');
 const checkTeacherSession = require('./middleware/checkTeacherSession');
 const teachersSessions = require('./models/teacherSession');
 
-const qrValidTime = 10000;
+const qrValidTime = 3000;
 
 let currentQRs = {};
 currentQRs.search = function (qr) {
