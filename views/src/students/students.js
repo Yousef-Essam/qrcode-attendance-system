@@ -10,16 +10,43 @@ const resultImg = document.getElementById('resultImg');
 
 const transTime = 1000;
 
+let crd;
+
 scan.onclick = () => {
-    camPage.style.display = 'block';
-    qrScanner.start();
-    setTimeout(() => {
-        camPage.style.left = 0;
-        mainPage.style.left = '-100vw';
+    /////////////////////
+
+    navigator.geolocation.getCurrentPosition((pos) => {
+        crd = pos.coords;
+        
+        camPage.style.display = 'block';
+        qrScanner.start();
         setTimeout(() => {
-            mainPage.style.display = 'none';
-        }, transTime);
-    }, 100)
+            camPage.style.left = 0;
+            mainPage.style.left = '-100vw';
+            setTimeout(() => {
+                mainPage.style.display = 'none';
+            }, transTime);
+        }, 100)
+
+        console.log('Your current position is:');
+        console.log(`Latitude : ${crd.latitude}`);
+        console.log(`Longitude: ${crd.longitude}`);
+        console.log(`More or less ${crd.accuracy} meters.`);
+    }, (err) => {
+        console.log(err);
+    }, {
+        enableHighAccuracy: true
+    });
+
+
+
+
+
+
+
+
+    ////////////////////
+    
 };
 
 camClose.onclick = () => {
@@ -130,13 +157,26 @@ function backToMain() {
 }
 
 function backToCam() {
-    camPage.style.display = 'block';
-    qrScanner.start();
-    setTimeout(() => {
-        camPage.style.left = 0;
-        resultPage.style.left = '-100vw';
+    navigator.geolocation.getCurrentPosition((pos) => {
+        crd = pos.coords;
+        
+        camPage.style.display = 'block';
+        qrScanner.start();
         setTimeout(() => {
-            resultPage.style.display = 'none';
-        }, transTime);
-    }, 100)
+            camPage.style.left = 0;
+            resultPage.style.left = '-100vw';
+            setTimeout(() => {
+                resultPage.style.display = 'none';
+            }, transTime);
+        }, 100)
+
+        console.log('Your current position is:');
+        console.log(`Latitude : ${crd.latitude}`);
+        console.log(`Longitude: ${crd.longitude}`);
+        console.log(`More or less ${crd.accuracy} meters.`);
+    }, (err) => {
+        console.log(err);
+    }, {
+        enableHighAccuracy: true
+    });
 }

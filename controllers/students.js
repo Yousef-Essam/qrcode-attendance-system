@@ -66,7 +66,12 @@ router.post('/scanRes', async (req, res) => {
     if (qrObj) {
         console.log(`Teacher Location is: Latitude=${req.currentQRs[qrObj].location.latitude}, Longitude=${req.currentQRs[qrObj].location.longitude}`)
         console.log(`Student Location is: Latitude=${req.body.location.latitude}, Longitude=${req.body.location.longitude}`)
-
+        
+        try {
+            console.log(`Distance is ${distance(req.currentQRs[qrObj].location.latitude, req.currentQRs[qrObj].location.longitude, req.body.location.latitude, req.body.location.longitude)}`)
+        } catch (err) {
+            console.log('So Saaaaaaaaaaaaaaaaaaaaaaaad!!');
+        }
         let queryResult = await lectures.setAttended(req.student.student_id, req.currentQRs[qrObj].lecture_id);
         if (queryResult.affectedRows === 0) {
             console.log(`Attendance failed with ${req.body.qr}`)
@@ -90,3 +95,17 @@ router.post('/scanRes', async (req, res) => {
 })
 
 module.exports = router;
+
+function distance(lat1,lon1,lat2,lon2) {
+	var R = 6371; // km (change this constant to get miles)
+	var dLat = (lat2-lat1) * Math.PI / 180;
+	var dLon = (lon2-lon1) * Math.PI / 180;
+	var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+		Math.cos(lat1 * Math.PI / 180 ) * Math.cos(lat2 * Math.PI / 180 ) *
+		Math.sin(dLon/2) * Math.sin(dLon/2);
+	var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+	var d = R * c;
+	if (d>1) return Math.round(d)+"km";
+	else if (d<=1) return Math.round(d*1000)+"m";
+	return d;
+}
