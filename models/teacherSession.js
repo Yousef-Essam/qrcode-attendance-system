@@ -16,7 +16,7 @@ teachersSessions.check = async (t_sesID) => {
 
 teachersSessions.destroySession = async (t_sesID) => {
     try {
-        await teachersSessions.delete({t_sesID: t_sesID});
+        await teachersSessions.del({t_sesID: t_sesID});
         return true;
     } catch (err) {
         return false;
@@ -25,7 +25,7 @@ teachersSessions.destroySession = async (t_sesID) => {
 
 teachersSessions.destroyTeacherSession = async (teacher_id) => {
     try {
-        await teachersSessions.delete({teacher_id: teacher_id});
+        await teachersSessions.del({teacher_id: teacher_id});
         return true;
     } catch (err) {
         return false;
