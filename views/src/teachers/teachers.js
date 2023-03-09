@@ -14,6 +14,19 @@ const col = document.getElementById('col');
 
 let socket = io();
 
+// navigator.geolocation.getCurrentPosition((pos) => {
+//     const crd = pos.coords;
+  
+//     console.log('Your current position is:');
+//     console.log(`Latitude : ${crd.latitude}`);
+//     console.log(`Longitude: ${crd.longitude}`);
+//     console.log(`More or less ${crd.accuracy} meters.`);
+// }, (err) => {
+//     console.log(err);
+// }, {
+//     enableHighAccuracy: true
+// });
+
 downloadBut.onclick = () => {
     if (courseSelect.value === 'title' || lecSelect.value === 'title') {
         alert('Please Choose a Valid Course and Lecture Number.');
@@ -61,7 +74,21 @@ start.onclick = (e) => {
         return;
     }
     showModal();
-    socket.emit('start', courseSelect.value, lecSelect.value);
+
+    navigator.geolocation.getCurrentPosition((pos) => {
+        const crd = pos.coords;
+
+        socket.emit('start', courseSelect.value, lecSelect.value, crd.latitude, crd.longitude);
+      
+        console.log('Your current position is:');
+        console.log(`Latitude : ${crd.latitude}`);
+        console.log(`Longitude: ${crd.longitude}`);
+        console.log(`More or less ${crd.accuracy} meters.`);
+    }, (err) => {
+        console.log(err);
+    }, {
+        enableHighAccuracy: true
+    });
 }
 
 stop.onclick = (e) => {

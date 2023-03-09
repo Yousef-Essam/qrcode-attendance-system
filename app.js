@@ -150,11 +150,15 @@ io.on('connection', async (socket) => {
         return;
     }
 
-    socket.on('start', async (course, lecture) => {
+    socket.on('start', async (course, lecture, latitude, longitude, accuracy) => {
         if (currentQRs[socket.id]) return;
         let teacher = await teachersSessions.check(parseCookie(socket.handshake.headers.cookie).t_sesID);
         if (!teachers.teaches(teacher.teacher_id, course)) return;
-
+        let location = {
+            longitude: longitude,
+            latitude: latitude,
+            accuracy: accuracy
+        }
         currentQRs[socket.id] = {};
         console.log(`${socket.id} started generating QR codes for ${course} Lecture ${lecture}`)
         currentQRs[socket.id].teacher_id = teacher.teacher_id;
@@ -162,6 +166,8 @@ io.on('connection', async (socket) => {
         currentQRs[socket.id].lecture = lecture;
         currentQRs[socket.id].lecture_id = await lectures.getID(teacher.teacher_id, lecture, course);
         currentQRs[socket.id].qr = `${currentQRs[socket.id].course}-${currentQRs[socket.id].lecture}-${generateRandomString(50)}`;
+        console.log(location);
+        currentQRs[socket.id].location = location;
         console.log(`QR string is ${currentQRs[socket.id].qr}`)
         socket.emit('qr-change', await qrcode.toDataURL(currentQRs[socket.id].qr))
 

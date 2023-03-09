@@ -537,6 +537,14 @@ video {
   bottom: 107px;
 }
 
+.left-0 {
+  left: 0px;
+}
+
+.left-\[-100vw\] {
+  left: -100vw;
+}
+
 .left-\[0\] {
   left: 0;
 }
@@ -601,6 +609,10 @@ video {
   margin-top: 100px;
 }
 
+.mt-\[10vh\] {
+  margin-top: 10vh;
+}
+
 .mt-\[152px\] {
   margin-top: 152px;
 }
@@ -617,6 +629,10 @@ video {
   margin-top: 250px;
 }
 
+.mt-\[2vh\] {
+  margin-top: 2vh;
+}
+
 .mt-\[30px\] {
   margin-top: 30px;
 }
@@ -627,6 +643,10 @@ video {
 
 .mt-\[50px\] {
   margin-top: 50px;
+}
+
+.mt-\[8vh\] {
+  margin-top: 8vh;
 }
 
 .block {
@@ -790,6 +810,10 @@ video {
   background-color: rgb(255 255 255 / var(--tw-bg-opacity));
 }
 
+.bg-opacity-\[0\.5\] {
+  --tw-bg-opacity: 0.5;
+}
+
 .bg-opacity-\[0\.7\] {
   --tw-bg-opacity: 0.7;
 }
@@ -834,12 +858,36 @@ video {
   padding-top: 330px;
 }
 
+.pt-\[8\.6vh\] {
+  padding-top: 8.6vh;
+}
+
+.pt-\[10vh\] {
+  padding-top: 10vh;
+}
+
+.pt-\[2vh\] {
+  padding-top: 2vh;
+}
+
+.pt-\[8vh\] {
+  padding-top: 8vh;
+}
+
 .text-center {
   text-align: center;
 }
 
 .font-\[Cairo\] {
   font-family: Cairo;
+}
+
+.text-\[1\.6vh\] {
+  font-size: 1.6vh;
+}
+
+.text-\[1\.7vh\] {
+  font-size: 1.7vh;
 }
 
 .text-\[2\.5vh\] {
@@ -918,6 +966,30 @@ video {
 }
 
 @media (min-width: 640px) {
+  .sm\:mt-\[2vh\] {
+    margin-top: 2vh;
+  }
+
+  .sm\:mt-\[4\.5vh\] {
+    margin-top: 4.5vh;
+  }
+
+  .sm\:mt-\[4vh\] {
+    margin-top: 4vh;
+  }
+
+  .sm\:mt-\[9vh\] {
+    margin-top: 9vh;
+  }
+
+  .sm\:h-\[2\.5vh\] {
+    height: 2.5vh;
+  }
+
+  .sm\:h-\[60vw\] {
+    height: 60vw;
+  }
+
   .sm\:h-\[6vh\] {
     height: 6vh;
   }
@@ -930,12 +1002,32 @@ video {
     height: 100%;
   }
 
+  .sm\:w-\[2\.5vh\] {
+    width: 2.5vh;
+  }
+
+  .sm\:w-\[60vw\] {
+    width: 60vw;
+  }
+
   .sm\:w-\[70vw\] {
     width: 70vw;
   }
 
+  .sm\:w-\[75vw\] {
+    width: 75vw;
+  }
+
+  .sm\:w-full {
+    width: 100%;
+  }
+
   .sm\:pb-\[1vh\] {
     padding-bottom: 1vh;
+  }
+
+  .sm\:pl-\[1vh\] {
+    padding-left: 1vh;
   }
 
   .sm\:pl-\[5vw\] {
@@ -956,5 +1048,13 @@ video {
 
   .sm\:pt-\[8\.5vh\] {
     padding-top: 8.5vh;
+  }
+
+  .sm\:pt-\[4\.5vh\] {
+    padding-top: 4.5vh;
+  }
+
+  .sm\:pt-\[9vh\] {
+    padding-top: 9vh;
   }
 }

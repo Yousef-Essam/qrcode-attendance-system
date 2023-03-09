@@ -50,42 +50,67 @@ navigator.mediaDevices.getUserMedia({
 
 const qrScanner = new QrScanner(video, (result) => {
     qrScanner.stop();
-    let body = {qr: result.data};
-    fetch('/students/scanRes', {method: 'POST', body: JSON.stringify(body), headers: {"Content-Type": "application/json"}})
-    .then((response) => {
-        if (response.status === 200) {
-            next.innerHTML = 'Sounds Nice!';
-            status.innerHTML = 'Attendance recorded successfully!';
-            status.style.color = 'black';
-            resultImg.src = '/images/success.svg';
-            next.onclick = backToMain;
-        } else if (response.status === 404) {
-            console.log('QR code does not exist')
-            next.innerHTML = 'Try Again';
-            status.innerHTML = 'Invalid scan';
-            status.style.color = '#E21E2C';
-            resultImg.src = '/images/failure.svg';
-            next.onclick = backToCam;
-        } else if (response.status === 400) {
-            next.innerHTML = 'Rest Assured!';
-            status.innerHTML = 'Attendance already recorded!';
-            status.style.color = 'black';
-            resultImg.src = '/images/already.png';
-            next.onclick = backToMain;
-        }
+    // let body = {qr: result.data};
 
-        setTimeout(() => {
-            resultPage.style.display = 'block';
-            setTimeout(() => {
-                resultPage.style.left = 0;
-                camPage.style.left = '-100vw';
-                setTimeout(() => {
-                    camPage.style.display = 'none';
-                }, transTime);
-            }, 50)
-        }, 50)
+    navigator.geolocation.getCurrentPosition((pos) => {
+        const crd = pos.coords;
         
-    })
+        // Start Location
+        let body = {};
+        body.qr = result.data;
+        body.location = {};
+        body.location.longitude = crd.longitude;
+        body.location.latitude = crd.latitude;
+        body.location.accuracy = crd.accuracy;
+        console.log(JSON.stringify(body))
+        fetch('/students/scanRes', {method: 'POST', body: JSON.stringify(body), headers: {"Content-Type": "application/json"}})
+        .then((response) => {
+            if (response.status === 200) {
+                next.innerHTML = 'Sounds Nice!';
+                status.innerHTML = 'Attendance recorded successfully!';
+                status.style.color = 'black';
+                resultImg.src = '/images/success.svg';
+                next.onclick = backToMain;
+            } else if (response.status === 404) {
+                console.log('QR code does not exist')
+                next.innerHTML = 'Try Again';
+                status.innerHTML = 'Invalid scan';
+                status.style.color = '#E21E2C';
+                resultImg.src = '/images/failure.svg';
+                next.onclick = backToCam;
+            } else if (response.status === 400) {
+                next.innerHTML = 'Rest Assured!';
+                status.innerHTML = 'Attendance already recorded!';
+                status.style.color = 'black';
+                resultImg.src = '/images/already.png';
+                next.onclick = backToMain;
+            }
+
+            setTimeout(() => {
+                resultPage.style.display = 'block';
+                setTimeout(() => {
+                    resultPage.style.left = 0;
+                    camPage.style.left = '-100vw';
+                    setTimeout(() => {
+                        camPage.style.display = 'none';
+                    }, transTime);
+                }, 50)
+            }, 50)
+            
+        })
+
+        // End Location
+        console.log('Your current position is:');
+        console.log(`Latitude : ${crd.latitude}`);
+        console.log(`Longitude: ${crd.longitude}`);
+        console.log(`More or less ${crd.accuracy} meters.`);
+    }, (err) => {
+        console.log(err);
+    }, {
+        enableHighAccuracy: true
+    });
+
+    
     }, {
         highlightScanRegion: true
     });
@@ -94,19 +119,6 @@ window.onload = () => {
     qrScanner.start().then(() => qrScanner.stop());
     
 }
-
-navigator.geolocation.getCurrentPosition((pos) => {
-    const crd = pos.coords;
-  
-    console.log('Your current position is:');
-    console.log(`Latitude : ${crd.latitude}`);
-    console.log(`Longitude: ${crd.longitude}`);
-    console.log(`More or less ${crd.accuracy} meters.`);
-}, (err) => {
-    console.log(err);
-}, {
-    enableHighAccuracy: true
-});
 
 function backToMain() {
     mainPage.style.display = 'block';

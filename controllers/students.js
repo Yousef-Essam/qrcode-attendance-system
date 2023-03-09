@@ -61,9 +61,12 @@ router.post('/scanRes', async (req, res) => {
         res.status(401).send('Student Not logged in!')
         return;
     }
-    
+    // console.log(req.body.location);
     let qrObj = req.currentQRs.search(req.body.qr);
     if (qrObj) {
+        console.log(`Teacher Location is: Latitude=${req.currentQRs[qrObj].location.latitude}, Longitude=${req.currentQRs[qrObj].location.longitude}`)
+        console.log(`Student Location is: Latitude=${req.body.location.latitude}, Longitude=${req.body.location.longitude}`)
+
         let queryResult = await lectures.setAttended(req.student.student_id, req.currentQRs[qrObj].lecture_id);
         if (queryResult.affectedRows === 0) {
             console.log(`Attendance failed with ${req.body.qr}`)
