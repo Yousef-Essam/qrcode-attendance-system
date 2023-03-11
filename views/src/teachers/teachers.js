@@ -73,12 +73,17 @@ start.onclick = (e) => {
         alert('Please Add the lecture first.');
         return;
     }
-    showModal();
 
     navigator.geolocation.getCurrentPosition((pos) => {
         const crd = pos.coords;
 
-        socket.emit('start', courseSelect.value, lecSelect.value, crd.latitude, crd.longitude);
+        if (pos.coords.accuracy > 50) {
+            alert('Device not located accurately:\n- Please make sure location services are turned on in this device.\n- Restart the internet connection on this device then refresh the application.')
+            return;
+        }
+        
+        showModal();
+        socket.emit('start', courseSelect.value, lecSelect.value, crd.latitude, crd.longitude, crd.accuracy);
       
         console.log('Your current position is:');
         console.log(`Latitude : ${crd.latitude}`);

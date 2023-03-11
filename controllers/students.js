@@ -66,12 +66,16 @@ router.post('/scanRes', async (req, res) => {
     if (qrObj) {
         console.log(`Teacher Location is: Latitude=${req.currentQRs[qrObj].location.latitude}, Longitude=${req.currentQRs[qrObj].location.longitude}`)
         console.log(`Student Location is: Latitude=${req.body.location.latitude}, Longitude=${req.body.location.longitude}`)
+        let d = distance(req.currentQRs[qrObj].location.latitude, req.currentQRs[qrObj].location.longitude, req.body.location.latitude, req.body.location.longitude)
+        console.log(`Distance is ${d}m`)
         
-        try {
-            console.log(`Distance is ${distance(req.currentQRs[qrObj].location.latitude, req.currentQRs[qrObj].location.longitude, req.body.location.latitude, req.body.location.longitude)}`)
-        } catch (err) {
-            console.log('So Saaaaaaaaaaaaaaaaaaaaaaaad!!');
+        if (d > 200) {
+            console.log(`Attendance failed with ${req.body.qr}`)
+            res.status(404);
+            res.send();
+            return;
         }
+
         let queryResult = await lectures.setAttended(req.student.student_id, req.currentQRs[qrObj].lecture_id);
         if (queryResult.affectedRows === 0) {
             console.log(`Attendance failed with ${req.body.qr}`)
@@ -96,16 +100,19 @@ router.post('/scanRes', async (req, res) => {
 
 module.exports = router;
 
+function deg2rad(deg) {
+    return deg * (Math.PI / 180.0);
+}
 function distance(lat1,lon1,lat2,lon2) {
-	var R = 6371; // km (change this constant to get miles)
-	var dLat = (lat2-lat1) * Math.PI / 180;
-	var dLon = (lon2-lon1) * Math.PI / 180;
-	var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
-		Math.cos(lat1 * Math.PI / 180 ) * Math.cos(lat2 * Math.PI / 180 ) *
-		Math.sin(dLon/2) * Math.sin(dLon/2);
-	var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-	var d = R * c;
-	if (d>1) return Math.round(d)+"km";
-	else if (d<=1) return Math.round(d*1000)+"m";
-	return d;
+  var R = 6371; // Radius of the earth in km
+  var dLat = deg2rad(lat2-lat1);  // deg2rad below
+  var dLon = deg2rad(lon2-lon1); 
+  var a = 
+    Math.sin(dLat/2) * Math.sin(dLat/2) +
+    Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * 
+    Math.sin(dLon/2) * Math.sin(dLon/2)
+    ; 
+  var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+  var d = R * 1000 * c; // Distance in m
+return d;
 }
