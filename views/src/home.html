@@ -27,11 +27,12 @@
                         <span class="float-left">Teacher Login</span><img class="float-left pl-[10px]" src="/images/prof.svg">
                     </div>
                 </button>
-                <button class="m-[10px] bg-white w-[350px] h-[96px] rounded-[10px] text-[32px]">
+                <button id="downloadApp" class="m-[10px] bg-white w-[350px] h-[96px] rounded-[10px] text-[32px]">
                     <div class="centerHor">
                         <span class="float-left">Download App</span><img class="float-left pl-[10px]" src="/images/android.svg">
                     </div>
                 </button>
+                <a id="downloadLink" href="https://drive.google.com/drive/folders/1n3buexKi0B2obcZ22bFVxL1lCgo5x2Pd?usp=sharing" hidden></a>
             </div>
             <img src="/images/qr.svg" class="absolute right-[0] bottom-[-350px]">
         </div>
@@ -54,6 +55,8 @@
             const showLogin = document.getElementById('showLogin');
             const hideLogin = document.getElementById('hideLogin');
             const modal = document.getElementById('modal');
+            const downloadLink = document.getElementById('downloadLink');
+            const downloadApp = document.getElementById('downloadApp');
 
             showLogin.onclick = (e) => {
                 showModal();
@@ -61,6 +64,10 @@
 
             hideLogin.onclick = (e) => {
                 hideModal();
+            }
+
+            downloadApp.onclick = (e) => {
+                downloadLink.click();
             }
 
             function showModal() {

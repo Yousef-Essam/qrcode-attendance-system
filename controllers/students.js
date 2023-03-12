@@ -6,6 +6,10 @@ const studentsSessions = require('../models/studentSession');
 const students = require('../models/student');
 const lectures = require('../models/lecture');
 
+router.use((req, res, next) => {
+    console.log(req.headers['user-agent']);
+    next()
+})
 router.use(checkStudentSession);
 
 router.get('/login', async (req, res) => {
