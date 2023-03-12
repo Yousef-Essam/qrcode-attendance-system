@@ -27,10 +27,6 @@ currentQRs.search = function (qr) {
         if (this[id].qr === qr) return id;
 }
 
-app.use((req, res, next) => {
-    req.secure ? next() : res.redirect('https://' + req.headers.host + req.url)
-})
-
 app.set('view engine', 'ejs') 
 
 app.use(logger);
