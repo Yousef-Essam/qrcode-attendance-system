@@ -19,7 +19,7 @@ const studentsSessions = require('./models/studentSession');
 const checkTeacherSession = require('./middleware/checkTeacherSession');
 const teachersSessions = require('./models/teacherSession');
 
-const qrValidTime = 2000;
+let qrValidTime = 2000;
 
 let currentQRs = {};
 currentQRs.search = function (qr) {
@@ -127,6 +127,20 @@ app.post('/getTeachers', async (req, res) => {
 app.post('/getCourses', async (req, res) => {
     if (req.body.username === 'qrcatt_admin' && req.body.password === 'iamtheadmin_pleaseletmein') {
         res.send(await courses.read());
+    } else {
+        res.status(403).send('7aramyyyyyyyyyyyy');
+    }
+})
+
+app.get('/setValidTime', async (req, res) => {
+    if (req.query.username === 'qrcatt_admin' && req.query.password === 'iamtheadmin_pleaseletmein') {
+        let s = parseInt(req.query.validTime);
+        if (!isNaN(parseInt(s)) && s > 500) {
+            qrValidTime = s;
+            res.send('QR valid time set successfully!');
+        } else {
+            res.status(400).send('Invalid value for time.')
+        }
     } else {
         res.status(403).send('7aramyyyyyyyyyyyy');
     }
